@@ -1,11 +1,22 @@
 import styles from '@/styles/Home.module.css'
 import { useEffect, useState } from 'react'
+import Image from 'next/image';
 
 export default function Home() {
 
   const[postItArray, setPostItArray] = useState([]);
   const[editText, setEditText] = useState("");
   const[editAuthor, setEditAuthor] = useState("");
+  const[editColor, setEditColor] = useState(0);
+  const[editing, setEditing] = useState(false);
+
+  const colors = [
+    "#ffc000",
+    "#3FE80C",
+    "#0AE0FF",
+    "#E82B0C",
+    "#8E0DFF"
+  ]
 
   const fetchPostIts = async () => {
 
@@ -27,42 +38,113 @@ export default function Home() {
 
   }
 
+  const handleColorEdit = () => {
+
+    if(editColor < 4){setEditColor(editColor + 1);}
+    else{setEditColor(0);}
+
+  }
+
+  const handlePostItEditButton = () => {
+
+    setEditAuthor("");
+    setEditColor(0);
+    setEditText("");
+    setEditing(!editing);
+
+  }
+
+  const newPost = () => {
+
+    fetch("https://comm-it-api-production.up.railway.app/new_post",{
+      method: "POST",
+      body : JSON.stringify({
+        "author" : editAuthor,
+        "color" : colors[editColor],
+        "text" : editText
+      }),
+      headers : {
+        "content-type" : "application/json"
+      }
+    });
+
+    fetchPostIts();
+    handlePostItEditButton();
+
+  }
+
   const renderPost = () => {
 
-    return(
-      <div
-      className={styles.postItContainer}
-      style={{['--post-color'] : "#ffc000"}}
-      >
+    if(editing){
 
-        <input
-        className={styles.postTextEdit}
-        contentEditable="true"
-        value={editText}
-        onChange={handleEditText}
-        />
+      return(
+        <div
+        className={styles.postItContainer}
+        style={{['--post-color' as any]: colors[editColor]}}
+        >
+          <div className={styles.postTopEdit}>
 
-        <div className={styles.postBottom}>
+            <Image
+            src="/assets/theme.png"
+            width={16}
+            height={16}
+            className={styles.editColor}
+            onClick={handleColorEdit}
+            alt="theme icon"
+            />
 
-          <input 
-          className={styles.postAuthorEdit}
-          placeholder='"autor"'
-          value={editAuthor}
-          onChange={handleAuthorEdit}
+            <Image
+            src="/assets/close.png"
+            width={16}
+            height={16}
+            className={styles.editClose}
+            onClick={handlePostItEditButton}
+            alt="close icon"
+            />
+
+          </div>
+
+          <input
+          className={styles.postTextEdit}
+          contentEditable="true"
+          value={editText}
+          onChange={handleEditText}
           />
 
-          <div className={styles.postLikes}>
-            <button 
-            className={styles.postButton}
-            >
-              Post
-            </button>
+          <div className={styles.postBottom}>
+
+            <input 
+            className={styles.postAuthorEdit}
+            placeholder='"autor"'
+            value={editAuthor}
+            onChange={handleAuthorEdit}
+            />
+
+            <div className={styles.postLikes}>
+              <button 
+              className={styles.postButton}
+              onClick={newPost}
+              >
+                Post
+              </button>
+            </div>
+
           </div>
 
         </div>
+      )
+    }else{
 
-      </div>
-    )
+      return(
+        <div className={styles.postItEditContainer}>
+          <button
+          className={styles.postItEditButton}
+          onClick={handlePostItEditButton}
+          >+</button>
+        </div>
+      )
+
+    }
 
   }
 
@@ -85,7 +167,7 @@ export default function Home() {
               <div
               key={index}
               className={styles.postItContainer}
-              style={{['--post-color'] : postItArray[index].color}}
+              style={{['--post-color' as any] : postItArray[index].color}}
               >
 
                 <span className={styles.postText}>
@@ -95,7 +177,7 @@ export default function Home() {
                 <div className={styles.postBottom}>
 
                   <span className={styles.postAuthor}>
-                    "author"
+                    {postItArray[index].author}
                   </span>
 
                   <div className={styles.postLikes}>

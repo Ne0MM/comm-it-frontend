@@ -37,6 +37,32 @@
     flex-flow: column;
 }
 
+.postItEditContainer{
+    color: black;
+    width: 250px;
+    margin: 1rem 2rem;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    flex-flow: column;
+    background-color: transparent;
+}
+
+.postItEditButton{
+    width: 50%;
+    height: 50%;
+    border: 2px solid black;
+    border-radius: 50%;
+    font-size: 2rem;
+    background-color: transparent;
+}
+
+.postItEditButton:hover{
+    cursor: pointer;
+}
+
 .postText{
     height: 80%;
     width: 100%;
@@ -46,7 +72,7 @@
 }
 
 .postTextEdit{
-    height: 80%;
+    height: 70%;
     width: 100%;
     display: flex;
     text-align: center;
@@ -58,6 +84,35 @@
 
 .postTextEdit:focus{
     outline: none;
+}
+
+.postTopEdit{
+    display: flex;
+    width: 100%;
+    height: 10%;
+    padding: 0 5%;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.editColor{
+    height: 66%;
+    border: none;
+    aspect-ratio: 1 / 1;
+}
+
+.editColor:hover{
+    cursor: pointer;
+}
+
+.editClose{
+    height: 66%;
+    border: none;
+    aspect-ratio: 1 / 1;
+}
+
+.editClose:hover{
+    cursor: pointer;
 }
 
 .postBottom{
