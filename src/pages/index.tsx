@@ -54,9 +54,9 @@ export default function Home() {
 
   }
 
-  const newPost = () => {
+  const newPost = async () => {
 
-    fetch("https://comm-it-api-production.up.railway.app/new_post",{
+    await fetch("https://comm-it-api-production.up.railway.app/new_post",{
       method: "POST",
       body : JSON.stringify({
         "author" : editAuthor,
@@ -159,6 +159,7 @@ export default function Home() {
         <header className={styles.header}>
             <span className={styles.headerLogo}>commit app</span>
         </header>
+          {renderPost()}
         <main className={styles.mainContainer}>
 
           {postItArray.map((e, index) => {
@@ -195,8 +196,6 @@ export default function Home() {
             )
 
           })}
-
-          {renderPost()}
 
         </main>
     </div>
