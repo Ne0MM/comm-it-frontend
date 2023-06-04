@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function Home() {
 
-  const[postItArray, setPostItArray] = useState([]);
+  const[postItArray, setPostItArray] = useState<any>([]);
   const[editText, setEditText] = useState("");
   const[editAuthor, setEditAuthor] = useState("");
   const[editColor, setEditColor] = useState(0);
@@ -162,7 +162,7 @@ export default function Home() {
           {renderPost()}
         <main className={styles.mainContainer}>
 
-          {postItArray.map((e, index) => {
+          {postItArray.map((e : any, index : any) => {
 
             return(
               <div
